@@ -42,4 +42,9 @@ set(degensac_srcs
 
 add_library(pydegensac_support ${degensac_srcs})
 pybind11_add_module(pydegensac "src/pydegensac/bindings.cpp")
-target_link_libraries(pydegensac PRIVATE ${LAPACK_LIBRARIES} matutls pydegensac_support "-Wl,-allow-multiple-definition")
+
+IF(APPLE)
+  target_link_libraries(pydegensac PRIVATE ${LAPACK_LIBRARIES} matutls pydegensac_support "-Wl")
+ELSE()
+  target_link_libraries(pydegensac PRIVATE ${LAPACK_LIBRARIES} matutls pydegensac_support "-Wl,-allow-multiple-definition")
+ENDIF()
